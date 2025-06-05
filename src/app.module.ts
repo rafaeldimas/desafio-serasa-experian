@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PostgresTypeormConfigFactory } from './database/postgres-typeorm-config.factory';
+import { PostgresTypeormConfigFactory } from './config/postgres-typeorm-config.factory';
 
 @Module({
   imports: [
