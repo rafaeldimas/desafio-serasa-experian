@@ -2,6 +2,11 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Farm } from '@/modules/farm/entities/farm.entity';
 
+export enum DocumentType {
+  CPF = 'CPF',
+  CNPJ = 'CNPJ',
+}
+
 @Entity()
 export class Grower {
   @PrimaryGeneratedColumn('uuid')
@@ -11,7 +16,7 @@ export class Grower {
   name: string;
 
   @Column({ type: 'varchar' })
-  documentType: 'CPF' | 'CNPJ';
+  documentType: DocumentType;
 
   @Column({ type: 'varchar' })
   documentNumber: string;

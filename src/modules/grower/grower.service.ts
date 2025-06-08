@@ -1,27 +1,58 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateGrowerDto } from '@/modules/grower/dto/create-grower.dto';
-import { UpdateGrowerDto } from '@/modules/grower/dto/update-grower.dto';
+import { CreateGrowerRequest } from '@/modules/grower/dto/create-grower.request';
+import { UpdateGrowerRequest } from '@/modules/grower/dto/update-grower.request';
+import { Grower } from '@/modules/grower/entities/grower.entity';
+import { GrowerMapper } from '@/modules/grower/grower.mapper';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class GrowerService {
-  create(createGrowerDto: CreateGrowerDto) {
-    return 'This action adds a new grower';
+  constructor(
+    @InjectRepository(Grower)
+    private readonly growerRepository: Repository<Grower>,
+  ) {}
+  async create(createGrowerRequest: CreateGrowerRequest): Promise<Grower> {
+    return await this.growerRepository.save(
+      GrowerMapper.requestToEntity(createGrowerRequest),
+    );
   }
 
-  findAll() {
-    return `This action returns all grower`;
+  async findAll(): Promise<Grower[]> {
+    const growers = await this.growerRepository.find();
+    return growers;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} grower`;
+  async findOne(id: string): Promise<Grower> {
+    const grower = await this.growerRepository.findOneBy({ id });
+    if (!grower) {
+      throw new Error('Grower not found');
+    }
+    return grower;
   }
 
-  update(id: number, updateGrowerDto: UpdateGrowerDto) {
-    return `This action updates a #${id} grower`;
+  async update(
+    id: string,
+    UpdateGrowerRequest: UpdateGrowerRequest,
+  ): Promise<Grower> {
+    const partialEntity = GrowerMapper.requestToEntity(UpdateGrowerRequest);
+
+    const result = await this.growerRepository.update({ id }, partialEntity);
+
+    if (result.affected === 0) {
+      throw new Error('Grower not found');
+    }
+
+    return (await this.growerRepository.findOneBy({ id })) as Grower;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} grower`;
+  async remove(id: string): Promise<Grower> {
+    const grower = await this.growerRepository.findOneBy({ id });
+    if (!grower) {
+      throw new Error('Grower not found');
+    }
+
+    return await this.growerRepository.remove(grower);
   }
 }

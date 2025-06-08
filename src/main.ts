@@ -1,9 +1,17 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { DomainErrorsFilter } from '@/filters/domain-errors-filter';
+import { GlobalErrorsFilter } from '@/filters/global-errors-filter';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+
+  app.useGlobalFilters(new GlobalErrorsFilter(), new DomainErrorsFilter());
 
   const config = new DocumentBuilder()
     .setTitle('Desafio Serasa Experian')
