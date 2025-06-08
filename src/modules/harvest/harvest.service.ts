@@ -1,27 +1,61 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateHarvestDto } from '@/modules/harvest/dto/create-harvest.dto';
-import { UpdateHarvestDto } from '@/modules/harvest/dto/update-harvest.dto';
+import { CreateHarvestRequest } from '@/modules/harvest/dto/create-harvest.request';
+import { UpdateHarvestRequest } from '@/modules/harvest/dto/update-harvest.request';
+import { Harvest } from '@/modules/harvest/entities/harvest.entity';
+import { HarvestNotFoundError } from '@/modules/harvest/errors/harvest-not-found';
+import { HarvestMapper } from '@/modules/harvest/harvest.mapper';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class HarvestService {
-  create(createHarvestDto: CreateHarvestDto) {
-    return 'This action adds a new harvest';
+  constructor(
+    @InjectRepository(Harvest)
+    private readonly harvestRepository: Repository<Harvest>,
+  ) {}
+
+  async create(createHarvestRequest: CreateHarvestRequest): Promise<Harvest> {
+    return this.harvestRepository.save(
+      HarvestMapper.requestToEntity(createHarvestRequest),
+    );
   }
 
-  findAll() {
-    return `This action returns all harvest`;
+  async findAll(): Promise<Harvest[]> {
+    return await this.harvestRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} harvest`;
+  async findOne(id: string): Promise<Harvest> {
+    const harvest = await this.harvestRepository.findOneBy({ id });
+    if (!harvest) {
+      throw new HarvestNotFoundError(id);
+    }
+
+    return harvest;
   }
 
-  update(id: number, updateHarvestDto: UpdateHarvestDto) {
-    return `This action updates a #${id} harvest`;
+  async update(
+    id: string,
+    updateHarvestRequest: UpdateHarvestRequest,
+  ): Promise<Harvest> {
+    const result = await this.harvestRepository.update(
+      { id },
+      HarvestMapper.requestToEntity(updateHarvestRequest),
+    );
+
+    if (result.affected === 0) {
+      throw new HarvestNotFoundError(id);
+    }
+
+    return (await this.harvestRepository.findOneBy({ id })) as Harvest;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} harvest`;
+  async remove(id: string): Promise<Harvest> {
+    const harvest = await this.harvestRepository.findOneBy({ id });
+    if (!harvest) {
+      throw new HarvestNotFoundError(id);
+    }
+
+    return await this.harvestRepository.remove(harvest);
   }
 }

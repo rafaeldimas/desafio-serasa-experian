@@ -13,6 +13,9 @@ export class Harvest {
   @Column({ type: 'text', array: true })
   crops: string[];
 
+  @Column({ type: 'uuid' })
+  farmId: string;
+
   @ManyToOne(() => Farm, (farm) => farm.harvests)
   farm: Farm;
 }

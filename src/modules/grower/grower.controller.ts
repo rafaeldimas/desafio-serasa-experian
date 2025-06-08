@@ -14,7 +14,7 @@ import { GrowerResponse } from '@/modules/grower/dto/grower.response';
 import { UpdateGrowerRequest } from '@/modules/grower/dto/update-grower.request';
 import { GrowerMapper } from '@/modules/grower/grower.mapper';
 import { GrowerService } from '@/modules/grower/grower.service';
-import { ApiCreatedResponse, ApiOkResponse, OmitType } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 
 @Controller('grower')
 export class GrowerController {
@@ -31,7 +31,7 @@ export class GrowerController {
   }
 
   @Get()
-  @ApiOkResponse({ type: GrowerResponse, description: 'Growers' })
+  @ApiOkResponse({ type: Array<GrowerResponse>, description: 'Growers' })
   async findAll(): Promise<GrowerResponse[]> {
     const growers = await this.growerService.findAll();
     return GrowerMapper.entityListToResponseList(growers);
@@ -57,10 +57,7 @@ export class GrowerController {
   }
 
   @Delete(':id')
-  @ApiOkResponse({
-    type: OmitType(GrowerResponse, ['id']),
-    description: 'Grower',
-  })
+  @ApiOkResponse({ description: 'Grower removed' })
   async remove(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<GrowerResponse> {
