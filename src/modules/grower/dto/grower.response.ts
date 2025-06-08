@@ -1,4 +1,3 @@
-import { Farm } from '@/modules/farm/entities/farm.entity';
 import { ApiResponseProperty } from '@nestjs/swagger';
 
 export class GrowerResponse {
@@ -21,9 +20,4 @@ export class GrowerResponse {
     format: 'CPF or CNPJ',
   })
   document: string;
-
-  @ApiResponseProperty({
-    type: 'array',
-  })
-  farms: Farm[];
 }

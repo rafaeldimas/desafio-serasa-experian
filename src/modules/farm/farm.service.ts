@@ -1,27 +1,60 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateFarmDto } from '@/modules/farm/dto/create-farm.dto';
-import { UpdateFarmDto } from '@/modules/farm/dto/update-farm.dto';
+import { CreateFarmRequest } from '@/modules/farm/dto/create-farm.request';
+import { UpdateFarmRequest } from '@/modules/farm/dto/update-farm.request';
+import { Farm } from '@/modules/farm/entities/farm.entity';
+import { FarmNotFoundError } from '@/modules/farm/errors/farm-not-found';
+import { FarmMapper } from '@/modules/farm/farm.mapper';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class FarmService {
-  create(createFarmDto: CreateFarmDto) {
-    return 'This action adds a new farm';
+  constructor(
+    @InjectRepository(Farm)
+    private readonly farmRepository: Repository<Farm>,
+  ) {}
+  async create(createFarmRequest: CreateFarmRequest): Promise<Farm> {
+    return await this.farmRepository.save(
+      FarmMapper.requestToEntity(createFarmRequest),
+    );
   }
 
-  findAll() {
-    return `This action returns all farm`;
+  async findAll(): Promise<Farm[]> {
+    return await this.farmRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} farm`;
+  async findOne(id: string): Promise<Farm> {
+    const farm = await this.farmRepository.findOneBy({ id });
+    if (!farm) {
+      throw new FarmNotFoundError(id);
+    }
+
+    return farm;
   }
 
-  update(id: number, updateFarmDto: UpdateFarmDto) {
-    return `This action updates a #${id} farm`;
+  async update(
+    id: string,
+    updateFarmRequest: UpdateFarmRequest,
+  ): Promise<Farm> {
+    const result = await this.farmRepository.update(
+      { id },
+      FarmMapper.requestToEntity(updateFarmRequest),
+    );
+
+    if (result.affected === 0) {
+      throw new FarmNotFoundError(id);
+    }
+
+    return (await this.farmRepository.findOneBy({ id })) as Farm;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} farm`;
+  async remove(id: string): Promise<Farm> {
+    const farm = await this.farmRepository.findOneBy({ id });
+    if (!farm) {
+      throw new FarmNotFoundError(id);
+    }
+
+    return await this.farmRepository.remove(farm);
   }
 }

@@ -32,6 +32,9 @@ export class Farm {
   @Column({ type: 'varchar', length: 255 })
   city: string;
 
+  @Column({ type: 'uuid' })
+  growerId: string;
+
   @ManyToOne(() => Grower, (grower) => grower.farms)
   grower: Grower;
 

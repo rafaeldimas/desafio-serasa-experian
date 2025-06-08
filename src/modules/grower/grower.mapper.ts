@@ -7,12 +7,11 @@ import { plainToClass } from 'class-transformer';
 
 export class GrowerMapper {
   static entityToResponse(grower: Grower): GrowerResponse {
-    return {
+    return plainToClass(GrowerResponse, {
       id: grower.id,
       name: grower.name,
       document: grower.documentNumber,
-      farms: grower.farms,
-    };
+    });
   }
 
   static entityListToResponseList(growers: Grower[]): GrowerResponse[] {

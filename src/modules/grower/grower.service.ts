@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateGrowerRequest } from '@/modules/grower/dto/create-grower.request';
 import { UpdateGrowerRequest } from '@/modules/grower/dto/update-grower.request';
 import { Grower } from '@/modules/grower/entities/grower.entity';
+import { GrowerNotFoundError } from '@/modules/grower/errors/grower-not-found';
 import { GrowerMapper } from '@/modules/grower/grower.mapper';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -27,7 +28,7 @@ export class GrowerService {
   async findOne(id: string): Promise<Grower> {
     const grower = await this.growerRepository.findOneBy({ id });
     if (!grower) {
-      throw new Error('Grower not found');
+      throw new GrowerNotFoundError(id);
     }
     return grower;
   }
@@ -41,7 +42,7 @@ export class GrowerService {
     const result = await this.growerRepository.update({ id }, partialEntity);
 
     if (result.affected === 0) {
-      throw new Error('Grower not found');
+      throw new GrowerNotFoundError(id);
     }
 
     return (await this.growerRepository.findOneBy({ id })) as Grower;
@@ -50,7 +51,7 @@ export class GrowerService {
   async remove(id: string): Promise<Grower> {
     const grower = await this.growerRepository.findOneBy({ id });
     if (!grower) {
-      throw new Error('Grower not found');
+      throw new GrowerNotFoundError(id);
     }
 
     return await this.growerRepository.remove(grower);
