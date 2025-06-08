@@ -1,7 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { HarvestService } from './harvest.service';
-import { CreateHarvestDto } from './dto/create-harvest.dto';
-import { UpdateHarvestDto } from './dto/update-harvest.dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
+
+import { CreateHarvestDto } from '@/modules/harvest/dto/create-harvest.dto';
+import { UpdateHarvestDto } from '@/modules/harvest/dto/update-harvest.dto';
+import { HarvestService } from '@/modules/harvest/harvest.service';
 
 @Controller('harvest')
 export class HarvestController {

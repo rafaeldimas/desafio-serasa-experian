@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
-import { HarvestService } from './harvest.service';
-import { HarvestController } from './harvest.controller';
+
+import { HarvestController } from '@/modules/harvest/harvest.controller';
+import { HarvestService } from '@/modules/harvest/harvest.service';
 
 @Module({
   controllers: [HarvestController],

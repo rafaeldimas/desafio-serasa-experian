@@ -7,9 +7,10 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { GrowerService } from './grower.service';
-import { CreateGrowerDto } from './dto/create-grower.dto';
-import { UpdateGrowerDto } from './dto/update-grower.dto';
+
+import { CreateGrowerDto } from '@/modules/grower/dto/create-grower.dto';
+import { UpdateGrowerDto } from '@/modules/grower/dto/update-grower.dto';
+import { GrowerService } from '@/modules/grower/grower.service';
 
 @Controller('grower')
 export class GrowerController {

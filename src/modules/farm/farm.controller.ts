@@ -1,7 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { FarmService } from './farm.service';
-import { CreateFarmDto } from './dto/create-farm.dto';
-import { UpdateFarmDto } from './dto/update-farm.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+
+import { CreateFarmDto } from '@/modules/farm/dto/create-farm.dto';
+import { UpdateFarmDto } from '@/modules/farm/dto/update-farm.dto';
+import { FarmService } from '@/modules/farm/farm.service';
 
 @Controller('farm')
 export class FarmController {

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CreateHarvestDto } from './dto/create-harvest.dto';
-import { UpdateHarvestDto } from './dto/update-harvest.dto';
+
+import { CreateHarvestDto } from '@/modules/harvest/dto/create-harvest.dto';
+import { UpdateHarvestDto } from '@/modules/harvest/dto/update-harvest.dto';
 
 @Injectable()
 export class HarvestService {

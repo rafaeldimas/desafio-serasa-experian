@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
-import { GrowerService } from './grower.service';
-import { GrowerController } from './grower.controller';
+
+import { GrowerController } from '@/modules/grower/grower.controller';
+import { GrowerService } from '@/modules/grower/grower.service';
 
 @Module({
   controllers: [GrowerController],
