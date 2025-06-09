@@ -5,21 +5,17 @@ import { cnpj, cpf } from 'cpf-cnpj-validator';
 export class Document {
   private documentType: DocumentType;
 
-  constructor(private readonly documentNumber: string) {
-    if (!documentNumber) {
-      throw new InvalidDocumentError();
-    }
-
+  constructor(private readonly documentNumber?: string) {
     if (!this.isValid()) {
       throw new InvalidDocumentError();
     }
   }
 
-  static create(documentNumber: string): Document {
+  static create(documentNumber?: string): Document {
     return new Document(documentNumber);
   }
 
-  getNumber(): string {
+  getNumber(): string | undefined {
     return this.documentNumber;
   }
 
@@ -28,6 +24,10 @@ export class Document {
   }
 
   isValid(): boolean {
+    if (!this.documentNumber) {
+      return false;
+    }
+
     if (cpf.isValid(this.documentNumber)) {
       this.documentType = DocumentType.CPF;
       return true;

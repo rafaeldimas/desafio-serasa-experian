@@ -27,7 +27,7 @@ export class GrowerMapper {
       partialEntity.name = request.name;
     }
 
-    if (request.document) {
+    if (request instanceof CreateGrowerRequest || request.document) {
       const document = Document.create(request.document);
       partialEntity.documentNumber = document.getNumber();
       partialEntity.documentType = document.getType();

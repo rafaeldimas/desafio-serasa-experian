@@ -1,7 +1,7 @@
 export class DomainError extends Error {
   private readonly code: string;
 
-  constructor(code: string, message: string) {
+  constructor(message: string, code: string) {
     super(message);
     this.code = code;
   }
