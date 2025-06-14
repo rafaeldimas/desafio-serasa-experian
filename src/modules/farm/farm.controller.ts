@@ -16,7 +16,7 @@ import { FarmMapper } from '@/modules/farm/farm.mapper';
 import { FarmService } from '@/modules/farm/farm.service';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 
-@Controller('farm')
+@Controller('farms')
 export class FarmController {
   constructor(private readonly farmService: FarmService) {}
 

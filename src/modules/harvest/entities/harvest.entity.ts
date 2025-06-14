@@ -2,7 +2,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Farm } from '@/modules/farm/entities/farm.entity';
 
-@Entity()
+@Entity('harvests')
 export class Harvest {
   @PrimaryGeneratedColumn('uuid')
   id: string;

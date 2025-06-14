@@ -7,7 +7,7 @@ export enum DocumentType {
   CNPJ = 'CNPJ',
 }
 
-@Entity()
+@Entity('growers')
 export class Grower {
   @PrimaryGeneratedColumn('uuid')
   id: string;

@@ -9,7 +9,7 @@ import {
 import { Grower } from '@/modules/grower/entities/grower.entity';
 import { Harvest } from '@/modules/harvest/entities/harvest.entity';
 
-@Entity()
+@Entity('farms')
 export class Farm {
   @PrimaryGeneratedColumn('uuid')
   id: string;

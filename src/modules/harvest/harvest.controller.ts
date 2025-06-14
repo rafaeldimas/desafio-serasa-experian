@@ -16,7 +16,7 @@ import { HarvestMapper } from '@/modules/harvest/harvest.mapper';
 import { HarvestService } from '@/modules/harvest/harvest.service';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 
-@Controller('harvest')
+@Controller('harvests')
 export class HarvestController {
   constructor(private readonly harvestService: HarvestService) {}
 

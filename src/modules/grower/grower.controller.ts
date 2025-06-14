@@ -16,7 +16,7 @@ import { GrowerMapper } from '@/modules/grower/grower.mapper';
 import { GrowerService } from '@/modules/grower/grower.service';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 
-@Controller('grower')
+@Controller('growers')
 export class GrowerController {
   constructor(private readonly growerService: GrowerService) {}
 
