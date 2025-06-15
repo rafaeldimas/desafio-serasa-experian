@@ -1,5 +1,5 @@
-import { Role } from '@/modules/auth/enum/role.enum';
 import { User } from '@/modules/user/entities/user.entity';
+import { Role } from '@/modules/user/enum/role.enum';
 import { UserService } from '@/modules/user/user.service';
 import { MockType } from '@/shared/tests/mock-type';
 import { plainToClass } from 'class-transformer';
