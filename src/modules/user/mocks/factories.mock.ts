@@ -24,6 +24,9 @@ export function userServiceMockFactory(): MockType<UserService> {
     ),
     findAll: jest.fn(() => Promise.resolve([userMockFactory()])),
     findOne: jest.fn((id: string) => Promise.resolve(userMockFactory({ id }))),
+    findByEmail: jest.fn((email: string) =>
+      Promise.resolve(userMockFactory({ email })),
+    ),
     update: jest.fn((id: string, updateUserDto: User) =>
       Promise.resolve(userMockFactory({ ...updateUserDto, id })),
     ),

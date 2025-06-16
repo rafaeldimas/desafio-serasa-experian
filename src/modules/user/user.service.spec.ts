@@ -215,4 +215,73 @@ describe('UserService', () => {
       });
     });
   });
+
+  describe('remove', () => {
+    describe('when removing a user', () => {
+      const id = '5fa2d3d2-4e8b-4c3d-8d1d-2d4d5d6d7d8d';
+      let user: User;
+      let userMock: User;
+
+      beforeAll(async () => {
+        userMock = userMockFactory();
+        jest.spyOn(repository, 'findOneBy').mockResolvedValueOnce(userMock);
+        user = await service.remove(id);
+      });
+
+      afterAll(() => {
+        jest.restoreAllMocks();
+      });
+
+      it('returns a User', () => {
+        expect(user).toBeInstanceOf(User);
+      });
+
+      it('returns a User without the id', () => {
+        expect(user.id).toBeUndefined();
+      });
+
+      it('returns a User with the same name', () => {
+        expect(user.name).toBe(userMock.name);
+      });
+
+      it('returns a User with the same email', () => {
+        expect(user.email).toBe(userMock.email);
+      });
+
+      it('calls the repository', () => {
+        expect(repository.remove).toHaveBeenCalledWith(userMock);
+      });
+    });
+
+    describe('when removing a user that does not exist', () => {
+      const id = '5fa2d3d2-4e8b-4c3d-8d1d-2d4d5d6d7d8d';
+      let error: UserNotFound;
+
+      beforeAll(async () => {
+        jest.spyOn(repository, 'findOneBy').mockResolvedValueOnce(null);
+
+        try {
+          await service.remove(id);
+        } catch (err) {
+          error = err as UserNotFound;
+        }
+      });
+
+      afterAll(() => {
+        jest.restoreAllMocks();
+      });
+
+      it('throws a UserNotFound', () => {
+        expect(error).toBeInstanceOf(UserNotFound);
+      });
+
+      it('throws a UserNotFound with the correct message', () => {
+        expect(error.getMessage()).toEqual(`User id (${id}) not found`);
+      });
+
+      it('throws a UserNotFound with the correct code', () => {
+        expect(error.getCode()).toEqual('USER_NOT_FOUND');
+      });
+    });
+  });
 });
