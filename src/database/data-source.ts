@@ -14,7 +14,7 @@ export default new DataSource({
   username: configService.get('DB_USER'),
   password: configService.get('DB_PASSWORD'),
   database: configService.get('DB_NAME'),
-  migrations: ['src/database/migrations/**.ts'],
+  migrations: ['src/database/migrations/**.{ts,js}'],
   entities: ['src/modules/**/*.entity.{ts,js}'],
   namingStrategy: new SnakeNamingStrategy(),
 });

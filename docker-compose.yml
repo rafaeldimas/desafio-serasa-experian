@@ -29,11 +29,16 @@ services:
     ports:
       - '3000:3000'
     environment:
+      NODE_ENV: production
+      PORT: 3000
       DB_HOST: db
       DB_PORT: 5432
       DB_USER: postgres
       DB_PASSWORD: postgres
       DB_NAME: postgres
+      JWT_SECRET: GENERATE_RANDON_SECRET_TOKEN
+      JWT_EXPIRATION: 1d
+
     depends_on:
       - db
 

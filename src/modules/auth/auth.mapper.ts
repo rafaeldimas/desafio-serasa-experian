@@ -15,7 +15,13 @@ export class AuthMapper {
   }
 
   static singUpResponse(user: User, token: string) {
-    return plainToClass(SingUpResponse, { ...user, token });
+    return plainToClass(SingUpResponse, {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      token,
+    });
   }
 
   static singInResponse(token: string) {

@@ -15,8 +15,10 @@ export class PostgresTypeormConfigFactory implements TypeOrmOptionsFactory {
       username: this.configService.get('DB_USER'),
       password: this.configService.get('DB_PASSWORD'),
       database: this.configService.get('DB_NAME'),
+      migrations: [__dirname + '/../database/migrations/**.{ts,js}'],
       entities: [__dirname + '/../modules/**/*.entity.{ts,js}'],
       namingStrategy: new SnakeNamingStrategy(),
+      migrationsRun: true,
     };
   }
 }
