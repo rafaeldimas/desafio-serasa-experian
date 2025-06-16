@@ -9,13 +9,21 @@ import {
   Post,
 } from '@nestjs/common';
 
+import { Roles } from '@/modules/auth/decorators/roles.decorator';
 import { CreateGrowerRequest } from '@/modules/grower/dto/create-grower.request';
 import { GrowerResponse } from '@/modules/grower/dto/grower.response';
 import { UpdateGrowerRequest } from '@/modules/grower/dto/update-grower.request';
 import { GrowerMapper } from '@/modules/grower/grower.mapper';
 import { GrowerService } from '@/modules/grower/grower.service';
-import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
+import { Role } from '@/modules/user/enum/role.enum';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+} from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@Roles(Role.USER)
 @Controller('growers')
 export class GrowerController {
   constructor(private readonly growerService: GrowerService) {}

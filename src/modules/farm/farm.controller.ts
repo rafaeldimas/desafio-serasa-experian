@@ -9,13 +9,21 @@ import {
   Post,
 } from '@nestjs/common';
 
+import { Roles } from '@/modules/auth/decorators/roles.decorator';
 import { CreateFarmRequest } from '@/modules/farm/dto/create-farm.request';
 import { FarmResponse } from '@/modules/farm/dto/farm.response';
 import { UpdateFarmRequest } from '@/modules/farm/dto/update-farm.request';
 import { FarmMapper } from '@/modules/farm/farm.mapper';
 import { FarmService } from '@/modules/farm/farm.service';
-import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
+import { Role } from '@/modules/user/enum/role.enum';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+} from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@Roles(Role.USER)
 @Controller('farms')
 export class FarmController {
   constructor(private readonly farmService: FarmService) {}

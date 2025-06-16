@@ -24,7 +24,7 @@ export class UserResponse {
 
   @ApiProperty({
     type: 'string',
-    example: 'admin',
+    example: Role.USER,
     enum: Role,
   })
   role: Role;

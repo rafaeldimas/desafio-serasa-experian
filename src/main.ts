@@ -19,6 +19,7 @@ async function bootstrap() {
       'Documentação da API do desafio para a vaga de backend do Serasa Experian',
     )
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const documentFactory = () =>

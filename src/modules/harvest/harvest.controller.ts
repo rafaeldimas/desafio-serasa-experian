@@ -9,13 +9,21 @@ import {
   Post,
 } from '@nestjs/common';
 
+import { Roles } from '@/modules/auth/decorators/roles.decorator';
 import { CreateHarvestRequest } from '@/modules/harvest/dto/create-harvest.request';
 import { HarvestResponse } from '@/modules/harvest/dto/harvest.response';
 import { UpdateHarvestRequest } from '@/modules/harvest/dto/update-harvest.request';
 import { HarvestMapper } from '@/modules/harvest/harvest.mapper';
 import { HarvestService } from '@/modules/harvest/harvest.service';
-import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
+import { Role } from '@/modules/user/enum/role.enum';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+} from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@Roles(Role.USER)
 @Controller('harvests')
 export class HarvestController {
   constructor(private readonly harvestService: HarvestService) {}
